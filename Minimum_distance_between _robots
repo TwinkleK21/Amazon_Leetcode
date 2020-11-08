@@ -1,0 +1,21 @@
+public class main{
+    public static void main(String args[]){
+        System.out.println("HelloWorld!");
+        int numRobots = 3;
+        int[] xPositions = new int[]{0, 1, 2};
+        int[] yPositions = new int[]{0, 1, 4};
+        int shortDistance = getShortDistance(numRobots, xPositions, yPositions);
+        System.out.println(shortDistance);
+    }
+    
+    public static int getShortDistance(int numRobots, int[] xPositions, int[] yPositions){
+        int minDistance = Integer.MAX_VALUE;
+        for(int i = 0; i < numRobots-1; i++){
+            for(int j = i+1; j < numRobots; j++){
+                int distance = (xPositions[j] - xPositions[i]) * (xPositions[j] - xPositions[i]) + (yPositions[j] - yPositions[i]) * (yPositions[j] - yPositions[i]);
+                minDistance = Math.min(minDistance, distance);
+            }
+        }
+        return minDistance;
+    }
+}
