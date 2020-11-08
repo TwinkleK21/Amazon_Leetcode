@@ -1,0 +1,21 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        int[] itemsPerGroup = new int[]{3,2,3,5};
+        int numGroups = 4;
+        System.out.println(packingAutomation(itemsPerGroup, numGroups));
+    }
+    
+    
+   public static int packingAutomation(int[] itemsPerGroup, int numGroups){
+       Arrays.sort(itemsPerGroup);
+       itemsPerGroup[0] = 1;
+       for(int i = 1; i < itemsPerGroup.length; i++){
+           if(itemsPerGroup[i]-itemsPerGroup[i-1]>1){
+               itemsPerGroup[i] = itemsPerGroup[i-1]+1;
+           }
+       }
+       return itemsPerGroup[itemsPerGroup.length-1];
+   } 
+}
