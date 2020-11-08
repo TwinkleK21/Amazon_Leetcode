@@ -1,0 +1,29 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        int numSuppliers = 2;
+        long[] inventory = new long[]{3,5};
+        long order = 6;
+        
+        System.out.println(highestProfit(numSuppliers, inventory, order));
+    }
+    
+    public static long highestProfit(int numSuppliers, long[] inventory, long order){
+        long maxProfit = 0;
+        PriorityQueue<Long> que = new PriorityQueue<>(Collections.reverseOrder());
+        int i =0;
+        while(i < inventory.length){
+            que.offer((long)inventory[i]);
+            i++;
+        }
+        while(!que.isEmpty() && order > 0){
+            long current = que.peek();
+            maxProfit = maxProfit+current;
+            que.poll();
+            que.offer(current-1);
+            order--;      
+        }
+        return maxProfit;
+    }
+}
