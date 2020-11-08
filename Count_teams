@@ -1,0 +1,39 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        int num = 20;
+        int minAssociates = 3;
+        int minLevel = 4;
+        int maxLevel = 10;
+        int[] skills = new int[]{ 12, 4, 6, 13, 5, 10};
+        int activeParticipant = associateParticipant(skills, minLevel, maxLevel);
+        int possibleAssociates = combinations(minAssociates, activeParticipant); 
+        System.out.println(possibleAssociates);
+    }
+    
+    public static int associateParticipant(int[] skills, int minLevel, int maxLevel){
+        List<Integer> temp = new ArrayList<>();
+        int count = 0;
+        for(int i = 0; i < skills.length; i++){
+            if(skills[i] >= minLevel && skills[i] <= maxLevel){
+                temp.add(skills[i]);
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public static int combinations(int minAssociate, int activeParticipant ) {
+        int result = 0;
+        for(int i = minAssociate; i <= activeParticipant; i++){
+            result = result + factorial(activeParticipant)/((factorial(activeParticipant-i)*factorial(i)));
+        }
+        return result;
+    }
+    
+    public static int factorial(int n){
+        return (n == 1 || n == 0) ? 1 : n * factorial(n - 1); 
+    }
+    
+}
