@@ -1,0 +1,43 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    private static List<List<Integer>> output = new ArrayList<List<Integer>>();
+
+public static void main(String args[]) throws Exception{
+	splitIntoPrimeNumbers("11373", new ArrayList<Integer>());
+	System.out.println(output);
+}
+
+private static void splitIntoPrimeNumbers(String input, List<Integer> list) throws Exception{
+	if(input.length()==0) {
+		output.add(list);
+	}
+	for(int i=1; i<=input.length(); i++) {
+		String subInput = input.substring(0,i);
+		int ip = Integer.parseInt(subInput);
+		if(isPrime(ip)) {
+			List<Integer> list1 = getDeepCopy(list);
+			list1.add(ip);
+			splitIntoPrimeNumbers(input.substring(i), list1);
+		}
+	}
+}
+
+private static boolean isPrime(int input) {
+	if(input == 1 || input == 0) return false;
+	boolean result = true;
+	for(int i = 2; i<=input/2; i++) {
+		if(input % i == 0) {
+			result  = false;
+		}
+	}
+	return result;
+}
+
+private static List<Integer> getDeepCopy(List<Integer> list){
+	List<Integer> copyList = new ArrayList<Integer>();
+	for(int i : list) {
+		copyList.add(i);
+	}
+	return copyList;
+}  
+}
