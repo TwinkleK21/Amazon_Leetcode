@@ -1,0 +1,71 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String args[]){
+        System.out.println("Hello World!");
+        List<items> list = new ArrayList<>();
+        list.add(new items("item1", 10, 15));
+        list.add(new items("item2", 3, 4));
+        list.add(new items("item3", 17, 8));
+        int sortParameter = 1;
+        int sortOrder = 0;
+        int itemsPerPage = 2;
+        int pageNumber = 1;
+        int numOfItems = 3;
+        List<String> result = fetchItemsToDisplay( numOfItems, list,  sortParameter,  sortOrder,  itemsPerPage,  pageNumber);
+        for(String i : result){
+            System.out.println(i);
+        }
+        
+    } 
+    public static List<String> fetchItemsToDisplay(int numOfItems, List<items> list, int sortParameter, int sortOrder, int itemsPerPage, int pageNumber){
+        PriorityQueue<items> que = new PriorityQueue<>(new Comparator<items>(){ 
+            @Override    
+            public int compare(items l1, items l2){
+                     if(sortParameter == 0){
+                            if(sortOrder == 0){
+                                return l1.name.compareTo(l2.name);
+                            }
+                         return l2.name.compareTo(l1.name);
+                    }
+                   else if(sortParameter == 1){
+                            if(sortOrder == 0){
+                                return (int)l1.relevance - (int)(l2.relevance);
+                            }
+                         return (int)l2.relevance - (int)(l1.relevance);
+                    }     
+                    else if(sortParameter == 2){
+                            if(sortOrder == 0){
+                                return ((int)l1.price - (int)l2.price);
+                            }
+                         return ((int)l2.price - (int)l1.price);
+                    }
+                    return 0;
+                
+            }});
+      
+        que.addAll(list);
+        List<String> result = new ArrayList<>();
+        for(items item : que){
+            result.add(item.name);
+        }
+        
+        int start = pageNumber*itemsPerPage;
+        int end = (start+itemsPerPage) > result.size() ? result.size() : start+itemsPerPage;
+        
+        return result.subList(start, end);
+        
+        
+        
+        }
+}
+
+class items{
+    String name;
+    int relevance;
+    int price;
+   public items(String name, int relevance, int price){
+        this.name = name;
+        this.relevance = relevance;
+        this.price = price;
+    }
+}
