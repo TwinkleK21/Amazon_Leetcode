@@ -1,0 +1,27 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        
+        int num = 3;
+        int[] boxes = new int[]{1,2,3};
+        int unitSize = 3;
+        int[] unitsPerBox = new int[]{3,2,1};
+        int truckSize = 4;
+        System.out.println(solution(num, boxes, unitSize, unitsPerBox, truckSize));
+    }
+    
+    
+    
+    public static int solution(int num, int[] boxes, int unitSize, int[] unitsPerBox, int truckSize){
+        int j = 0;
+        int sum = 0;
+        for(int i = 0; i < truckSize; i++){
+                sum = sum + unitsPerBox[j];
+            if(--boxes[j] == 0){
+                j++;
+            }
+        }
+      return sum;         
+    }
+}
