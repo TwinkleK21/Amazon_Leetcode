@@ -1,0 +1,80 @@
+//critial connection
+//tarjan's Algorithm
+//modifies version of DFS
+//keep track of order of nodes traversed(visited time, discovery time, etc)
+//
+
+
+public class main{
+    
+    
+    public static void main(String args[]){
+        List<List<Integer>> criticalConnections;
+        boolean[] visited;
+        int[] lowTime;
+        int[] visitTime;
+        int times;
+        ArrayList<Integer>[] graph;
+        
+        int n = 4;
+        List<List<Integer>> connections = new ArrayList<>();
+        connections.add(Arrays.asList(0, 1));
+        connections.add(Arrays.asList(1, 2));
+        connections.add(Arrays.asList(2, 0));
+        connections.add(Arrays.asList(1, 3));
+        
+        criticalConnections = new ArrayList<>();
+        visited = new boolean[n];
+        lowTime = new int[n];
+        visitTime = new int[n];
+        times = 0;
+        graph = new ArrayList[n];
+        
+        //build graph
+        buildGraph(connections, graph);  
+        
+        //dfs
+         dfs(visited, graph, 0, -1, lowTime, visitTime, times, criticalConnections);
+        
+        for(List<Integer> i : criticalConnections){
+            for(int j : i){
+                System.out.print(j);
+            }
+        }
+        
+    }
+    
+    public static void dfs(boolean[] visited, ArrayList<Integer>[] graph, int current, int parent, int[] lowTime, int[] visitTime, int times, List<List<Integer>> criticalConnections){
+        visited[current] = true;
+        visitTime[current] = lowTime[current] = times++;
+        
+        for(int neighbour : graph[current]){
+            if(neighbour == parent){
+                continue;
+            }
+            if(!visited[neighbour]){
+                dfs(visited, graph, neighbour, current, lowTime, visitTime, times, criticalConnections);
+                lowTime[current] = Math.min(lowTime[current], lowTime[neighbour]);
+                if(lowTime[neighbour] > visitTime[current]){
+                    criticalConnections.add(Arrays.asList(current, neighbour));
+                }
+            }
+            else{
+                lowTime[current] = Math.min(lowTime[current], visitTime[neighbour]);
+            }
+        }
+      //  return criticalConnections;
+    }
+    
+    
+    
+    public static void buildGraph(List<List<Integer>> connections, ArrayList<Integer>[] graph){
+        for(int i = 0; i < graph.length; i++){
+            graph[i] = new ArrayList<Integer>();
+        }
+        for(List<Integer> connection : connections){
+            graph[connection.get(0)].add(connection.get(1));
+            graph[connection.get(1)].add(connection.get(0));
+        }
+    }
+}
