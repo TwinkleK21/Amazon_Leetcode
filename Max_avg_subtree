@@ -1,0 +1,64 @@
+//Max Avg
+
+class Main{
+    static double maxAvg;
+    public static void main(String args[]){
+        TreeNode root = new TreeNode(5);
+         root.left = new TreeNode(6);
+         root.right = new TreeNode(1);
+        
+        maxAvg = (double)Integer.MIN_VALUE;
+        findMaxAvg(root);
+        System.out.println(maxAvg);
+    }
+    
+    public static Avg findMaxAvg(TreeNode root){
+        if(root == null){
+            return null;
+        }
+        Avg left = findMaxAvg(root.left);
+        Avg right = findMaxAvg(root.right);
+        
+        double total = (double)root.val;
+        int count = 1;
+        if(left != null){
+            total = total + left.total;
+            count = count + left.nodeCount;
+        }
+        if(right != null){
+            total = total + right.total;
+            count = count + right.nodeCount;
+        }
+        
+        maxAvg = Math.max(maxAvg, total/count);
+        //System.out.println(maxAvg);
+        return new Avg(total, count);
+        
+        
+    }
+}
+
+class Avg{
+    double total;
+    int nodeCount;
+    Avg(double total, int nodeCount){
+        this.total = total;
+        this.nodeCount =nodeCount;
+    }
+}
+
+class TreeNode{
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(){}
+    TreeNode(int val)
+    {
+        this.val = val; 
+    }
+    TreeNode(int val, TreeNode left, TreeNode right){
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
