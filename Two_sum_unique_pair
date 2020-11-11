@@ -1,0 +1,24 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        int[] nums = {1,1,2,45,46,46};
+        int target = 47;
+        Arrays.sort(nums);
+        int i = 0; 
+        int j = nums.length-1;
+        List<int[]> result = new ArrayList<>();
+        while(i < j){
+            if(i>0 && nums[i-1] == nums[i]){i++;}
+            if(j<nums.length-1 && nums[j] == nums[j+1]){j--;}
+            if(nums[i] + nums[j] == target){
+                result.add(new int[]{nums[i], nums[j]});
+            }
+            i++;
+            j--;
+        }
+        System.out.println(result.size());
+        for(int m = 0; m < result.size(); m++){
+            System.out.println(result.get(m)[0] + " " + result.get(m)[1]);  
+        }
+    }
+}
