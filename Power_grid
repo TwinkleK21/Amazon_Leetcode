@@ -1,0 +1,89 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    static Edge minEdge = null;
+    public static void main(String[] args) {
+        
+        System.out.println("Hello World!");
+        List<Edge> edgeList = new ArrayList<>();
+         edgeList.add(new Edge('A', 'B', 1));
+         edgeList.add(new Edge('B', 'C', 4));
+         edgeList.add(new Edge('B', 'D', 6));
+         edgeList.add(new Edge('D', 'E', 5));
+         edgeList.add(new Edge('C', 'E', 1));
+        int vertices = 5;
+        HashMap<Character, Set<Edge>> map = buildMap(edgeList);
+        List<Edge> result = finMinSpanningTree(map, vertices);
+        for(Edge e: result){
+            System.out.println(e.from+" " + e.to+" " + e.cost);
+        }  
+    }
+    
+    public static List<Edge> finMinSpanningTree(HashMap<Character, Set<Edge>> map, int vertices){
+        PriorityQueue<Edge> que = new PriorityQueue<>((e1, e2) -> {return e1.cost - e2.cost;});
+        que.offer(minEdge);
+        List<Edge> result = new ArrayList<>();
+        HashSet<Character> set = new HashSet<>();
+        
+        while(set.size() != vertices){
+            Edge tempEdge = que.poll();
+            if(set.contains(tempEdge.to) && set.contains(tempEdge.from)){
+                continue;
+            }
+            
+            set.add(tempEdge.to);
+            set.add(tempEdge.from);
+            result.add(tempEdge);
+            
+            Set<Edge> neighbour = new HashSet<>();
+            if(map.containsKey(tempEdge.to)){
+                neighbour.addAll(map.get(tempEdge.to));
+                map.remove(tempEdge.to);
+            }
+            if(map.containsKey(tempEdge.from)){
+                neighbour.addAll(map.get(tempEdge.from));
+                map.remove(tempEdge.from);
+            }
+            for(Edge e :neighbour){
+                que.offer(e);
+            }
+        }
+         
+        return result;
+    }
+    
+    
+    
+    public static HashMap<Character, Set<Edge>> buildMap(List<Edge> edgeList){
+        HashMap<Character, Set<Edge>> map = new HashMap<>();
+        int minCost = Integer.MAX_VALUE;
+        
+        
+        for(Edge edge: edgeList){
+            if(!map.containsKey(edge.from)){
+                map.put(edge.from, new HashSet<>());
+            }
+            if(!map.containsKey(edge.to)){
+                map.put(edge.to, new HashSet<>());
+            }
+            map.get(edge.from).add(edge);
+            map.get(edge.to).add(edge);
+            if(edge.cost < minCost){
+                minCost = edge.cost;
+                minEdge = edge;
+            }
+        }
+        return map;
+    }
+}
+
+class Edge{
+    char from;
+    char to;
+    int cost;
+    
+    public Edge(char from, char to, int cost){
+        this.from = from;
+        this.to = to;
+        this.cost = cost;
+    }
+}
