@@ -1,0 +1,29 @@
+class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        getResults(res, new ArrayList<String>(), s);
+        return res;
+    }
+    
+    private void getResults(List<List<String>> res, List<String> list, String s) {
+        if(s.length() == 0) {
+            res.add(new ArrayList<String>(list));            
+            return;
+        }
+        int n = s.length();
+        for(int i = 0; i < n; i++) {
+            if(checkPalindrome(s, 0, i)) {
+                list.add(s.substring(0, i+1));
+                getResults(res, list, s.substring(i+1));
+                list.remove(list.size()-1);
+            }
+        }
+    }
+    private boolean checkPalindrome(String s, int i, int j) {
+        while(i < j) {
+            if(s.charAt(i) != s.charAt(j)) return false;
+            i++; j--;
+        }
+        return true;
+    }
+}
