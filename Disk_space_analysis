@@ -1,0 +1,34 @@
+import java.util.*;
+class Main {
+    public static int availableSpace(int numComputer, int[] hardDiskSpace, int segmentLength) {
+        int res = Integer.MIN_VALUE;
+        // WRITE YOUR BRILLIANT CODE HERE
+        Deque<Integer> queue = new ArrayDeque<>();
+        for(int i = 0; i < numComputer; i++){
+            
+            //remove elements outside window 
+            if(!queue.isEmpty() && queue.peek() < i-segmentLength+1){
+                queue.poll();
+            }
+            
+            //remove all elements greater than current element
+            while(!queue.isEmpty() && hardDiskSpace[queue.peekLast()] >= hardDiskSpace[i] ){
+                queue.pollLast();
+            }
+            
+            queue.offer(i);
+            if(i - segmentLength + 1 >= 0){
+                res = Math.max(res, hardDiskSpace[queue.peekFirst()]);
+            }
+        }
+        return res;      
+    }
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int numComputer = 4;
+        int[] hardDiskSpace = new int[] {4,3,4,3};
+        int segmentLength = 2;
+
+        System.out.println(availableSpace(numComputer, hardDiskSpace, segmentLength));
+    }
+}
