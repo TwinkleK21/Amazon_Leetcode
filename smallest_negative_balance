@@ -5,10 +5,10 @@ public class Main {
         List<debtRecord> record = new ArrayList<>();
         record.add(new debtRecord("Alex", "Blake", 2));
         record.add(new debtRecord("Blake", "Alex", 2));
-        record.add(new debtRecord("Casey", "Alex", 5));
-        record.add(new debtRecord("Blake", "Casey", 7));
-        record.add(new debtRecord("Alex", "Blake", 4));
-        record.add(new debtRecord("Alex", "Casey", 4));
+        // record.add(new debtRecord("Casey", "Alex", 5));
+        // record.add(new debtRecord("Blake", "Casey", 7));
+        // record.add(new debtRecord("Alex", "Blake", 4));
+        // record.add(new debtRecord("Alex", "Casey", 4));
         String[] result = smallestNegBal(record);
         for(String s : result){
             System.out.println(s);
@@ -28,6 +28,11 @@ public class Main {
                 min = Math.min(min, entry.getValue());
         }
         
+        if(min >= 0){
+            String[] res = new String[] {"Nobody has a negative balance"};
+            return res;
+        }
+        
         for(Map.Entry<String, Integer> entry : map.entrySet()){
             if(entry.getValue() == min){
                 result.add(entry.getKey());
@@ -35,22 +40,13 @@ public class Main {
         }
         
         Collections.sort(result);
-        if(min > 0){
-            String[] res = result.toArray(new String[0]);
-            return res;
-        }
-         String[] res = result.toArray(new String[0]);
-        //String[] res = new String[result.size()];
-        // for(int i = 0; i < result.size(); i++){
-        //     res[i] = result.get(i);
-        // }
+        
+        String[] res = result.toArray(new String[0]);
         return res;
         }
 }
 
    
-
-
 class debtRecord {
     String borrower = "";
     String lender = "";
