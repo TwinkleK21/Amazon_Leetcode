@@ -1,0 +1,23 @@
+import java.util.*;
+class Main {
+    public static int availableSpace(int numComputer, int[] hardDiskSpace, int segmentLength) {
+        int res = Integer.MIN_VALUE;
+        // WRITE YOUR BRILLIANT CODE HERE
+        for(int i = 0; i < numComputer-segmentLength; i++){
+            int localMin = Integer.MAX_VALUE;
+            for(int j = i; j < i+segmentLength; j++){
+                localMin = Math.min(localMin, hardDiskSpace[j]);
+            }
+            res = Math.max(res, localMin);
+        }
+        return res;      
+    }
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int numComputer = 3;
+        int[] hardDiskSpace = new int[] {8,2,4};
+        int segmentLength = 2;
+
+        System.out.println(availableSpace(numComputer, hardDiskSpace, segmentLength));
+    }
+}
